@@ -1,0 +1,31 @@
+spring:
+  banner:
+    location: classpath:/banner/MikBacBanner.txt
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: validate
+  flyway:
+    url: ${DATABASE_URL}
+    user: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+projects:
+  scanner:
+    cron: ${PROJECTS_SCANNER_CRON:0 */5 * * * *}
+    batch-size: ${PROJECTS_SCANNER_BATCH_SIZE:10}
+  provider:
+    github:
+      active: ${GITHUB_ACTIVE:true}
+      url: ${GITHUB_URL:https://api.github.com/}
+      token: ${GITHUB_TOKEN}
+      connection-timeout: ${GITHUB_CONNECTION_TIMEOUT:30}
+      read-timeout: ${GITHUB_READ_TIMEOUT:30}

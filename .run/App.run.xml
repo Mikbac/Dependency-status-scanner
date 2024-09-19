@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <envs>
+      <env name="CONSOLE_LOG_LEVEL" value="INFO" />
+      <env name="SOCKET_LOG_LEVEL" value="OFF" />
+      <env name="PROJECTS_SCANNER_BATCH_SIZE" value="2" />
+      <env name="DATABASE_URL" value="jdbc:postgresql://localhost:5432/dependency_status_database" />
+      <env name="DATABASE_USERNAME" value="postgres" />
+      <env name="DATABASE_PASSWORD" value="postgres1" />
+      <env name="GITHUB_URL" value="https://api.github.com/" />
+      <env name="GITHUB_TOKEN" value="" />
+    </envs>
+    <module name="Dependency-status-scanner.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="pl.mikbac.dependencystatusscanner.DependencyStatusScannerApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

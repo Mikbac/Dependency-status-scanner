@@ -1,0 +1,79 @@
+#
+# Created by MikBac on 16.09.2024
+#
+version: "3.4"
+services:
+  filebeat:
+    container_name: filebeat
+    image: elastic/filebeat:8.15.1
+    hostname: filebeat
+    entrypoint: "filebeat -e -strict.perms=false"
+    ports:
+      - '4560:4560'
+    volumes:
+      - ./filebeat-config/filebeat.yaml:/usr/share/filebeat/filebeat.yml:ro
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1g
+    networks:
+      - elk-network
+  logstash:
+    container_name: logstash
+    image: elastic/logstash:8.15.1
+    hostname: logstash
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1g
+    volumes:
+      - ./logstash-pipelines/:/usr/share/logstash/pipeline/
+    networks:
+      - elk-network
+    depends_on:
+      - filebeat
+  elasticsearch:
+    container_name: elasticsearch
+    image: elastic/elasticsearch:8.15.1
+    hostname: elasticsearch
+    ports:
+      - '9200:9200'
+    environment:
+      - ELASTIC_USERNAME=user1
+      - ELASTIC_PASSWORD=pass1
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1g
+    networks:
+      - elk-network
+    depends_on:
+      - logstash
+  kibana:
+    container_name: kibana
+    image: elastic/kibana:8.15.1
+    hostname: kibana
+    ports:
+      - '5601:5601'
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1g
+    networks:
+      - elk-network
+    depends_on:
+      - elasticsearch
+
+networks:
+  elk-network:

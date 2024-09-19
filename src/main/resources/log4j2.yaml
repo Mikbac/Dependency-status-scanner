@@ -1,0 +1,33 @@
+Configuration:
+  Properties:
+    Property:
+      - name: CONSOLE_LOG_LEVEL
+        value: "OFF"
+      - name: SOCKET_LOG_LEVEL
+        value: "OFF"
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+    Socket:
+      name: Socket_Appender
+      host: localhost
+      port: 4560
+      JSONLayout:
+        complete: false
+        compact: true
+        eventEol: true
+        stacktraceAsString: true
+        KeyValuePair:
+          - key: appName
+            value: Dependency-status-scanner
+  Loggers:
+    Root:
+      level: "INFO"
+      AppenderRef:
+        - ref: Console_Appender
+          level: ${env:CONSOLE_LOG_LEVEL}
+        - ref: Socket_Appender
+          level: ${env:SOCKET_LOG_LEVEL}
