@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProjectService {
 
-    PageModel<?> findAllProjects(int pageNumber, int pageSize);
+    PageModel<ProjectModel> findAllProjects(int pageNumber, int pageSize);
 
     List<ProjectModel> findProjectsByOldestEntry(int batchSize);
 

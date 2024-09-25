@@ -1,5 +1,11 @@
 # Dependency status scanner
 
+## Providers
+
+| Id               | Description                       | Parameters                                                                                    |
+|------------------|-----------------------------------|-----------------------------------------------------------------------------------------------|
+| `githubProvider` | Project data provider from GitHub | `project_provider_id_1` - GitHub account<br> `project_provider_id_2` - GitHub repository name |
+
 ## Postgres & ELK
 
 ### Docker compose
@@ -17,11 +23,7 @@ Logs are passed from the application to Filebeat and then to Logstash. Logstash 
 Kibana is available via http://localhost:5601/. A sample data view is included in the `kibana`
 catalog ([Kibana-data-view](kibana/Kibana-data-view.ndjson)).
 
-## Providers
-
-| Id               | Description                       | Parameters                                                                                    |
-|------------------|-----------------------------------|-----------------------------------------------------------------------------------------------|
-| `githubProvider` | Project data provider from GitHub | `project_provider_id_1` - GitHub account<br> `project_provider_id_2` - GitHub repository name |
+![kibana.png](img/kibana.png)
 
 ## DB diagram
 
@@ -46,3 +48,4 @@ graph TD;
 * [ ] BOM file import
 * [ ] ArchUnit test
 * [ ] GitLab connector
+* [ ] Jacoco

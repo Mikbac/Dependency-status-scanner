@@ -28,7 +28,7 @@ public class ProjectFacade {
     private final Map<String, ProjectDataProvider> projectsProviders;
 
     public ResponsePageData<ProjectData> getAllProjects(final int pageNumber, final int pageSize) {
-        final PageModel<ProjectModel> projectPage = (PageModel<ProjectModel>) projectService.findAllProjects(pageNumber, pageSize);
+        final PageModel<ProjectModel> projectPage = projectService.findAllProjects(pageNumber, pageSize);
         final List<ProjectData> projectData = projectPage
                 .projects()
                 .stream()

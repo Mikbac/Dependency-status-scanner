@@ -25,6 +25,6 @@ public abstract class AbstractModel {
     private UUID id;
 
     @CreationTimestamp
-    private Timestamp dataInit;
+    private Timestamp initData;
 
 }

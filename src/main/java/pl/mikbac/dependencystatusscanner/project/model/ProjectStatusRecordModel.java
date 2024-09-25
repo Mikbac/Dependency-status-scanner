@@ -1,5 +1,6 @@
 package pl.mikbac.dependencystatusscanner.project.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,6 +22,7 @@ public class ProjectStatusRecordModel extends AbstractModel {
 
     @ManyToOne
     @JoinColumn(name = "project_code", referencedColumnName = "projectCode")
+    @JsonManagedReference
     private ProjectModel project;
 
 }

@@ -8,6 +8,8 @@ import pl.mikbac.dependencystatusscanner.project.model.AbstractModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectStatusRecordModel;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
@@ -27,7 +29,7 @@ public class ProjectConverter {
                 .code(project.getProjectCode())
                 .name(project.getName())
                 .projectStatus(projectStatus)
-                .lastUpdate(project.getLastSuccessScannerUpdate().toLocalDateTime())
+                .lastUpdate(getLastUpdateDate(project.getLastSuccessScannerUpdate()))
                 .build();
     }
 
@@ -39,7 +41,13 @@ public class ProjectConverter {
 
     private static Optional<ProjectStatusRecordModel> getLastStatusRecord(final Set<ProjectStatusRecordModel> statusRecords) {
         return statusRecords.stream()
-                .max(Comparator.comparing(AbstractModel::getDataInit));
+                .max(Comparator.comparing(AbstractModel::getInitData));
+    }
+
+    private static LocalDateTime getLastUpdateDate(final Timestamp lastSuccessScannerUpdate) {
+        return Optional.ofNullable(lastSuccessScannerUpdate)
+                .map(Timestamp::toLocalDateTime)
+                .orElse(null);
     }
 
 }

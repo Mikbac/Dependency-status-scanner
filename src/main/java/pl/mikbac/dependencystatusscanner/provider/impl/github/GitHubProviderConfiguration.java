@@ -3,10 +3,11 @@ package pl.mikbac.dependencystatusscanner.provider.impl.github;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClient;
 import pl.mikbac.dependencystatusscanner.properties.ProjectsProperties;
 
 import java.time.Duration;
@@ -21,28 +22,35 @@ public class GitHubProviderConfiguration {
 
     public static final String GITHUB_PROVIDER = "githubProvider";
     public static final String GITHUB_CLIENT = "githubClient";
-    public static final String GITHUB_PROVIDER_REST_TEMPLATE = "githubRestTemplate";
+    public static final String GITHUB_PROVIDER_REST_CLIENT = "githubRestClient";
+    public static final String GITHUB_PROVIDER_REQUEST_FACTORY = "githubRequestFactory";
 
     @Bean(GITHUB_CLIENT)
-    public GitHubClient githubClient(@Qualifier(GITHUB_PROVIDER_REST_TEMPLATE) final RestTemplate githubRestTemplate) {
-        return new GitHubClient(githubRestTemplate);
+    public GitHubClient githubClient(@Qualifier(GITHUB_PROVIDER_REST_CLIENT) final RestClient githubRestClient) {
+        return new GitHubClient(githubRestClient);
     }
 
-    @Bean(GITHUB_PROVIDER_REST_TEMPLATE)
-    public RestTemplate githubRestTemplate(final RestTemplateBuilder restTemplateBuilder,
-                                           final ProjectsProperties properties) {
-        return restTemplateBuilder
-                .rootUri(properties.provider().github().url())
-                .setConnectTimeout(Duration.ofSeconds(properties.provider().github().connectionTimeout()))
-                .setReadTimeout(Duration.ofSeconds(properties.provider().github().readTimeout()))
-                .additionalInterceptors((request, body, execution) -> {
+    @Bean(GITHUB_PROVIDER_REST_CLIENT)
+    public RestClient githubRestClient(@Qualifier(GITHUB_PROVIDER_REQUEST_FACTORY) final ClientHttpRequestFactory requestFactory,
+                                       final ProjectsProperties properties) {
+        return RestClient.builder()
+                .requestFactory(requestFactory)
+                .baseUrl(properties.provider().github().url())
+                .defaultHeaders(hh -> {
                     final String token = properties.provider().github().token();
                     if (StringUtils.isNotBlank(token)) {
-                        request.getHeaders().add("Authorization", "Bearer " + token);
+                        hh.setBearerAuth(token);
                     }
-                    return execution.execute(request, body);
                 })
                 .build();
+    }
+
+    @Bean(GITHUB_PROVIDER_REQUEST_FACTORY)
+    public ClientHttpRequestFactory githubRequestFactory(final ProjectsProperties properties) {
+        final var requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(Duration.ofSeconds(properties.provider().github().connectionTimeout()));
+        requestFactory.setReadTimeout(Duration.ofSeconds(properties.provider().github().readTimeout()));
+        return requestFactory;
     }
 
 }
