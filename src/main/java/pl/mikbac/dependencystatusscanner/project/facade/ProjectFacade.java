@@ -32,10 +32,10 @@ public class ProjectFacade {
         final List<ProjectData> projectData = projectPage
                 .projects()
                 .stream()
-                .map(ProjectConverter::getProjectData)
+                .map(ProjectConverter::toProjectData)
                 .toList();
 
-        return PageConverter.getResponsePage(projectData, pageNumber, pageSize, projectPage.totalElements());
+        return PageConverter.toResponsePageData(projectData, pageNumber, pageSize, projectPage.totalElements());
     }
 
     public List<ProjectModel> getProjectsByOldestEntry(final int batchSize) {

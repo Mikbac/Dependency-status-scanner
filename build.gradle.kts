@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "pl.mikbac"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -24,6 +24,8 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     modules {
         module("org.springframework.boot:spring-boot-starter-logging") {
@@ -39,7 +41,11 @@ dependencies {
 
     implementation("org.apache.commons:commons-lang3:3.17.0")
 
+    implementation("io.micrometer:micrometer-registry-prometheus:1.13.6")
+
     compileOnly("org.projectlombok:lombok")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     annotationProcessor("org.projectlombok:lombok")
 
@@ -48,4 +54,28 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    archiveBaseName = project.name
+    archiveClassifier = "plain"
+    manifest {
+        attributes["Implementation-Title"] = project.name
+        attributes["Implementation-Version"] = version
+        attributes["Created-By"] = "mikbac"
+        attributes["Main-Class"] = "pl.mikbac.dependencystatusscanner.DependencyStatusScannerApplication"
+    }
+}
+
+tasks.create("fatJar", Jar::class) {
+    archiveBaseName = project.name
+    archiveClassifier = "fat"
+    manifest {
+        attributes["Implementation-Title"] = project.name
+        attributes["Implementation-Version"] = version
+        attributes["Created-By"] = "mikbac"
+        attributes["Main-Class"] = "pl.mikbac.dependencystatusscanner.DependencyStatusScannerApplication"
+    }
+    from(configurations.runtimeClasspath.get().map { project.zipTree(it) })
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

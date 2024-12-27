@@ -13,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PageConverter {
 
-    public static <T> ResponsePageData<T> getResponsePage(List<T> data,
-                                                          final int pageNumber,
-                                                          final int pageSize,
-                                                          final long totalElements) {
+    public static <T> ResponsePageData<T> toResponsePageData(List<T> data,
+                                                             final int pageNumber,
+                                                             final int pageSize,
+                                                             final long totalElements) {
         return ResponsePageData.<T>builder()
                 .data(data)
                 .pageNumber(pageNumber)

@@ -17,8 +17,9 @@ docker compose -f ./docker/elk.yaml up -d
 
 ### Kibana
 
-Logs are passed from the application to Filebeat and then to Logstash. Logstash uses index pattern
-`%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY-MM-dd}` e.g. `filebeat-8.15.1-*`.
+Logs are passed from the application to Filebeat and then to Logstash. Logstash provides logs to Elasticsearch with index pattern:
+`%{[@metadata][beat]}-%{[@metadata][version]}-%{[log_info][project_origin]}-%{+YYYY-MM-dd}` e.g.
+`filebeat-8.15.1-dependency_status_scanner-*` (`filebeat-8.15.1-dependency_status_scanner-2024-12-27`).
 
 Kibana is available via http://localhost:5601/. A sample data view is included in the `kibana`
 catalog ([Kibana-data-view](kibana/Kibana-data-view.ndjson)).
@@ -32,6 +33,14 @@ graph TD;
     project-->dependency;
     project-->project_status_record;
 ```
+
+## Metrics
+
+Metrics are available via:
+
+* Health: http://localhost:8080/actuator/health
+* Flyway: http://localhost:8080/actuator/flyway
+* Prometheus: http://localhost:8080/actuator/prometheus
 
 ## TODO
 
@@ -49,3 +58,6 @@ graph TD;
 * [ ] ArchUnit test
 * [ ] GitLab connector
 * [ ] Jacoco
+* [ ] CQRS
+* [ ] PMD gradle plugin
+* [ ] OWASP dependency-check gradle plugin

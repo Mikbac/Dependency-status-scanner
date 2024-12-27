@@ -21,30 +21,30 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProjectConverter {
 
-    public static ProjectData getProjectData(final ProjectModel project) {
-        final ProjectStatusData projectStatus = getLastStatusRecord(project.getProjectStatusRecords())
-                .map(ProjectConverter::getProjectStatusData)
+    public static ProjectData toProjectData(final ProjectModel project) {
+        final ProjectStatusData projectStatus = toLastStatusRecord(project.getProjectStatusRecords())
+                .map(ProjectConverter::toProjectStatusData)
                 .orElse(null);
         return ProjectData.builder()
                 .code(project.getProjectCode())
                 .name(project.getName())
                 .projectStatus(projectStatus)
-                .lastUpdate(getLastUpdateDate(project.getLastSuccessScannerUpdate()))
+                .lastUpdate(toLastUpdateDate(project.getLastSuccessScannerUpdate()))
                 .build();
     }
 
-    private static ProjectStatusData getProjectStatusData(final ProjectStatusRecordModel projectStatusRecord) {
+    private static ProjectStatusData toProjectStatusData(final ProjectStatusRecordModel projectStatusRecord) {
         return ProjectStatusData.builder()
                 .openIssues(projectStatusRecord.getOpenIssues())
                 .build();
     }
 
-    private static Optional<ProjectStatusRecordModel> getLastStatusRecord(final Set<ProjectStatusRecordModel> statusRecords) {
+    private static Optional<ProjectStatusRecordModel> toLastStatusRecord(final Set<ProjectStatusRecordModel> statusRecords) {
         return statusRecords.stream()
                 .max(Comparator.comparing(AbstractModel::getInitData));
     }
 
-    private static LocalDateTime getLastUpdateDate(final Timestamp lastSuccessScannerUpdate) {
+    private static LocalDateTime toLastUpdateDate(final Timestamp lastSuccessScannerUpdate) {
         return Optional.ofNullable(lastSuccessScannerUpdate)
                 .map(Timestamp::toLocalDateTime)
                 .orElse(null);

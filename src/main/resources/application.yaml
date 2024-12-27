@@ -1,6 +1,9 @@
 spring:
   banner:
     location: classpath:/banner/MikBacBanner.txt
+  devtools:
+    restart:
+      enabled: ${DEV_TOOLS:false}
   threads:
     virtual:
       enabled: true
@@ -29,3 +32,15 @@ projects:
       token: ${GITHUB_TOKEN}
       connection-timeout: ${GITHUB_CONNECTION_TIMEOUT:30}
       read-timeout: ${GITHUB_READ_TIMEOUT:30}
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - flyway
+          - prometheus

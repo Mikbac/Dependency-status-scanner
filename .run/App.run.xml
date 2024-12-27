@@ -3,6 +3,7 @@
     <envs>
       <env name="CONSOLE_LOG_LEVEL" value="INFO" />
       <env name="SOCKET_LOG_LEVEL" value="OFF" />
+      <env name="DEV_TOOLS" value="true" />
       <env name="PROJECTS_SCANNER_BATCH_SIZE" value="2" />
       <env name="DATABASE_URL" value="jdbc:postgresql://localhost:5432/dependency_status_database" />
       <env name="DATABASE_USERNAME" value="postgres" />
