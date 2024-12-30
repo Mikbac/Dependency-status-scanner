@@ -34,9 +34,14 @@ projects:
       read-timeout: ${GITHUB_READ_TIMEOUT:30}
 
 management:
+  server:
+    port: 8081
   endpoint:
     prometheus:
       enabled: true
+    health:
+      probes:
+        enabled: true
   endpoints:
     web:
       exposure:

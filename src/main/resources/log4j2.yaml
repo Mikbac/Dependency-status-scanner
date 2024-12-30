@@ -5,6 +5,10 @@ Configuration:
         value: "OFF"
       - name: SOCKET_LOG_LEVEL
         value: "OFF"
+      - name: SOCKER_LISTENER_HOST
+        value: "localhost"
+      - name: SOCKER_LISTENER_PORT
+        value: "4560"
   Appenders:
     Console:
       name: Console_Appender
@@ -13,8 +17,8 @@ Configuration:
         pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
     Socket:
       name: Socket_Appender
-      host: localhost
-      port: 4560
+      host: ${env:SOCKER_LISTENER_HOST}
+      port: ${env:SOCKER_LISTENER_PORT}
       JSONLayout:
         complete: false
         compact: true

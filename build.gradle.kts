@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     modules {
@@ -68,6 +69,7 @@ tasks.jar {
 }
 
 tasks.create("fatJar", Jar::class) {
+    group = "build"
     archiveBaseName = project.name
     archiveClassifier = "fat"
     manifest {
@@ -76,6 +78,6 @@ tasks.create("fatJar", Jar::class) {
         attributes["Created-By"] = "mikbac"
         attributes["Main-Class"] = "pl.mikbac.dependencystatusscanner.DependencyStatusScannerApplication"
     }
-    from(configurations.runtimeClasspath.get().map { project.zipTree(it) })
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

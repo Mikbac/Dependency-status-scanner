@@ -1,0 +1,38 @@
+#
+# Created by MikBac on 28.12.2024
+#
+version: "3.4"
+include:
+  - postgres.yaml
+  - elk.yaml
+services:
+  dependency-status-scanner:
+    container_name: dependency-status-scanner
+    image: mikbac/dependency-status-scanner:1.0
+    hostname: dependency-status-scanner
+    ports:
+      - '8080:8080'
+    environment:
+      - CONSOLE_LOG_LEVEL=INFO
+      - SOCKET_LOG_LEVEL=INFO
+      - PROJECTS_SCANNER_BATCH_SIZE=2
+      - DATABASE_URL=jdbc:postgresql://postgres-db:5432/dependency_status_database
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres1
+      - GITHUB_TOKEN=
+      - SOCKER_LISTENER_HOST=filebeat
+      - SOCKER_LISTENER_PORT=4560
+    depends_on:
+      - postgres-db
+      - filebeat
+      - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1g
+    networks:
+      - dsc-network
+
+networks:
+  dsc-network:
