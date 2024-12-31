@@ -21,10 +21,10 @@ public class ScannerService {
 
     @Scheduled(cron = "${projects.scanner.cron}")
     public void scheduleProjectsUpdate() {
-        LOGGER.info("Started project update.");
+        LOGGER.info("Started projects update.");
         projectService.getProjectsByOldestEntry(projectsProperties.scanner().batchSize())
                 .forEach(projectService::updateProject);
-        LOGGER.info("Ended project update.");
+        LOGGER.info("Ended projects update.");
     }
 
 }

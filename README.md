@@ -57,6 +57,14 @@ Running docker compose app (with postgres and ELK stack):
 docker compose -f ./docker/dsc.yaml up -d
 ```
 
+## Upgrading gradle version
+
+```shell
+./gradlew wrapper --gradle-version <version>
+# e.g.
+./gradlew wrapper --gradle-version 8.12
+```
+
 ## TODO
 
 * [ ] Circuit Breaker Resillience4j
@@ -77,3 +85,4 @@ docker compose -f ./docker/dsc.yaml up -d
 * [ ] OWASP dependency-check gradle plugin
 * [ ] Automatically build and run unit tests
 * [ ] Automatic deployment to dockerhub
+* [ ] Embedded postgres for testing
