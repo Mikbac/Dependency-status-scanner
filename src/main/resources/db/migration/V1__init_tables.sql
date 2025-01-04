@@ -1,37 +1,35 @@
 CREATE TYPE provider AS ENUM ('githubProvider');
 
-CREATE TABLE project
+CREATE TABLE projects
 (
     id                          UUID      DEFAULT gen_random_uuid() PRIMARY KEY,
     init_data                   TIMESTAMP DEFAULT current_timestamp NOT NULL,
     project_code                TEXT UNIQUE                         NOT NULL,
     name                        TEXT                                NOT NULL,
-    provider_id                 provider                            NOT NULL,
+    provider_code               provider                            NOT NULL,
     project_external_id1        TEXT,
     project_external_id2        TEXT,
     project_external_id3        TEXT,
     last_success_scanner_update TIMESTAMP
 );
 
-CREATE INDEX idx_project_last_success_scanner_update
-    ON project (last_success_scanner_update);
+CREATE INDEX idx_projects_last_success_scanner_update
+    ON projects (last_success_scanner_update);
 
-CREATE TABLE dependency
+CREATE TABLE dependencies
 (
     id           UUID      DEFAULT gen_random_uuid() PRIMARY KEY,
     init_data    TIMESTAMP DEFAULT current_timestamp NOT NULL,
     code         TEXT                                NOT NULL,
-    project_code TEXT                                NOT NULL,
-    group_id     TEXT                                NOT NULL,
-    artifact_id  TEXT                                NOT NULL,
-    CONSTRAINT fk_project_dependency FOREIGN KEY (project_code) REFERENCES project (project_code)
+    project_id   UUID                                NOT NULL REFERENCES projects (id) ON DELETE CASCADE,
+    dep_group    TEXT                                NOT NULL,
+    dep_artifact TEXT                                NOT NULL
 );
 
-CREATE TABLE project_status_record
+CREATE TABLE project_status_records
 (
-    id           UUID      DEFAULT gen_random_uuid() PRIMARY KEY,
-    init_data    TIMESTAMP DEFAULT current_timestamp NOT NULL,
-    project_code TEXT                                NOT NULL,
-    open_issues  NUMERIC,
-    CONSTRAINT fk_project_status_record FOREIGN KEY (project_code) REFERENCES project (project_code)
+    id          UUID      DEFAULT gen_random_uuid() PRIMARY KEY,
+    init_data   TIMESTAMP DEFAULT current_timestamp NOT NULL,
+    project_id  UUID                                NOT NULL REFERENCES projects (id) ON DELETE CASCADE,
+    open_issues NUMERIC
 );

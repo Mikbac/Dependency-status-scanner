@@ -6,13 +6,52 @@
 |------------------|-----------------------------------|-----------------------------------------------------------------------------------------------|
 | `githubProvider` | Project data provider from GitHub | `project_provider_id_1` - GitHub account<br> `project_provider_id_2` - GitHub repository name |
 
+## DB diagram
+
+```mermaid
+graph TD;
+    projects-->dependencies;
+    projects-->project_status_records;
+```
+
+## Building container image
+
+Building a container image (multistage build with copied gradle wrapper to use the same version of gradle):
+
+```shell
+docker build -t mikbac/dependency-status-scanner:1.0 .
+```
+
+Running docker compose app (with postgres and ELK stack):
+
+```shell
+docker compose -f ./docker/dsc.yaml \
+  --profile postgres-db \
+  --profile elk  \
+  --profile dsc-app  \
+  up -d
+```
+
 ## Postgres & ELK
 
 ### Docker compose
 
+Running docker compose with postgres and Filebeat (recommended for local development):
+
 ```shell
-docker compose -f ./docker/postgres.yaml up -d
-docker compose -f ./docker/elk.yaml up -d
+docker compose -f ./docker/dsc.yaml \
+  --profile postgres-db \
+  --profile filebeat  \
+  up -d
+```
+
+Running docker compose with postgres and ELK (Filebeat + Logstash + Elasticsearch + Kibana) stack:
+
+```shell
+docker compose -f ./docker/dsc.yaml \
+  --profile postgres-db \
+  --profile elk  \
+  up -d
 ```
 
 ### Kibana
@@ -27,14 +66,6 @@ catalog ([Kibana-data-view](kibana/Kibana-data-view.ndjson)).
 
 ![kibana.png](img/kibana.png)
 
-## DB diagram
-
-```mermaid
-graph TD;
-    project-->dependency;
-    project-->project_status_record;
-```
-
 ## Metrics
 
 Metrics are available via:
@@ -42,20 +73,6 @@ Metrics are available via:
 * Health: http://localhost:8080/actuator/health
 * Flyway: http://localhost:8080/actuator/flyway
 * Prometheus: http://localhost:8080/actuator/prometheus
-
-## Building container image
-
-Building a container image (multistage build with copied gradle wrapper to use the same version of gradle):
-
-```shell
-docker build -t mikbac/dependency-status-scanner:1.0 .
-```
-
-Running docker compose app (with postgres and ELK stack):
-
-```shell
-docker compose -f ./docker/dsc.yaml up -d
-```
 
 ## Upgrading gradle version
 

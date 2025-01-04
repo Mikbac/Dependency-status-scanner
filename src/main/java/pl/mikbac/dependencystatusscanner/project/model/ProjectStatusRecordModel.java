@@ -13,7 +13,7 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "project_status_record")
+@Table(name = "project_status_records")
 @Getter
 @Setter
 public class ProjectStatusRecordModel extends AbstractModel {
@@ -21,7 +21,7 @@ public class ProjectStatusRecordModel extends AbstractModel {
     private Integer openIssues;
 
     @ManyToOne
-    @JoinColumn(name = "project_code", referencedColumnName = "projectCode")
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
     @JsonManagedReference
     private ProjectModel project;
 

@@ -13,17 +13,17 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "dependency")
+@Table(name = "dependencies")
 @Getter
 @Setter
 public class DependencyModel extends AbstractModel {
 
     private String code;
-    private String groupId;
-    private String artifactId;
+    private String depGroup;
+    private String depArtifact;
 
     @ManyToOne
-    @JoinColumn(name = "project_code", referencedColumnName = "projectCode")
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
     @JsonManagedReference
     private ProjectModel project;
 

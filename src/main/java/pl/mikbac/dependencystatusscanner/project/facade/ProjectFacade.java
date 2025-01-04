@@ -44,9 +44,9 @@ public class ProjectFacade {
 
     @Async
     public void updateProject(final ProjectModel project) {
-        final ProjectDataProvider provider = projectsProviders.get(project.getProviderId());
+        final ProjectDataProvider provider = projectsProviders.get(project.getProviderCode());
         if (Objects.isNull(provider)) {
-            throw new IllegalArgumentException("Unsupported or inactive provider: " + project.getProviderId());
+            throw new IllegalArgumentException("Unsupported or inactive provider: " + project.getProviderCode());
         }
         projectService.saveProjectStatusRecord(provider.getProjectUpdateRecord(project));
     }

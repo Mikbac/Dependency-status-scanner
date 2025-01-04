@@ -1,11 +1,13 @@
 #
 # Created by MikBac on 16.09.2024
 #
-version: "3.4"
 services:
   filebeat:
     container_name: filebeat
     image: elastic/filebeat:8.15.1
+    profiles:
+      - elk
+      - filebeat
     hostname: filebeat
     entrypoint: "filebeat -e -strict.perms=false"
     ports:
@@ -23,6 +25,8 @@ services:
   logstash:
     container_name: logstash
     image: elastic/logstash:8.15.1
+    profiles:
+      - elk
     hostname: logstash
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
@@ -40,6 +44,8 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: elastic/elasticsearch:8.15.1
+    profiles:
+      - elk
     hostname: elasticsearch
     ports:
       - '9200:9200'
@@ -61,6 +67,8 @@ services:
   kibana:
     container_name: kibana
     image: elastic/kibana:8.15.1
+    profiles:
+      - elk
     hostname: kibana
     ports:
       - '5601:5601'

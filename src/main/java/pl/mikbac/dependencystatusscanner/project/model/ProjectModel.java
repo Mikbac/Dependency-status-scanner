@@ -17,7 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
  */
 
 @Entity
-@Table(name = "project")
+@Table(name = "projects")
 @Getter
 @Setter
 public class ProjectModel extends AbstractModel {
@@ -26,7 +26,7 @@ public class ProjectModel extends AbstractModel {
 
     private String name;
 
-    private String providerId;
+    private String providerCode;
 
     private String projectExternalId1;
 

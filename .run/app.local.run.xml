@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="app" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <envs>
       <env name="CONSOLE_LOG_LEVEL" value="INFO" />
       <env name="SOCKET_LOG_LEVEL" value="OFF" />

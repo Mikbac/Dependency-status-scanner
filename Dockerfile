@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk as builder
+FROM eclipse-temurin:21-jdk AS builder
 
 RUN mkdir /app
 WORKDIR /app
@@ -32,3 +32,4 @@ HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
   CMD curl -f http://localhost:8081/actuator/health/readiness || exit 1
 
 ENTRYPOINT ["java","-jar","/opt/app/app.jar"]
+CMD ["-XX:MaxRAMPercentage=80.0"]

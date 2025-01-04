@@ -1,14 +1,15 @@
 #
 # Created by MikBac on 28.12.2024
 #
-version: "3.4"
 include:
-  - postgres.yaml
-  - elk.yaml
+  - db/postgres.yaml
+  - elk/elk.yaml
 services:
   dependency-status-scanner:
     container_name: dependency-status-scanner
     image: mikbac/dependency-status-scanner:1.0
+    profiles:
+      - dsc-app
     hostname: dependency-status-scanner
     ports:
       - '8080:8080'
