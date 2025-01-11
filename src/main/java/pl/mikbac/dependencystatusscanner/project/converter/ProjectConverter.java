@@ -29,7 +29,7 @@ public class ProjectConverter {
                 .code(project.getProjectCode())
                 .name(project.getName())
                 .projectStatus(projectStatus)
-                .lastUpdate(toLastUpdateDate(project.getLastSuccessScannerUpdate()))
+                .lastUpdate(toLastUpdateDate(project.getUpdatedAt()))
                 .build();
     }
 
@@ -41,11 +41,11 @@ public class ProjectConverter {
 
     private static Optional<ProjectStatusRecordModel> toLastStatusRecord(final Set<ProjectStatusRecordModel> statusRecords) {
         return statusRecords.stream()
-                .max(Comparator.comparing(AbstractModel::getInitData));
+                .max(Comparator.comparing(AbstractModel::getCreatedAt));
     }
 
-    private static LocalDateTime toLastUpdateDate(final Timestamp lastSuccessScannerUpdate) {
-        return Optional.ofNullable(lastSuccessScannerUpdate)
+    private static LocalDateTime toLastUpdateDate(final Timestamp scannerUpdatedAt) {
+        return Optional.ofNullable(scannerUpdatedAt)
                 .map(Timestamp::toLocalDateTime)
                 .orElse(null);
     }

@@ -18,8 +18,8 @@ import java.util.UUID;
 public interface ProjectRepository extends JpaRepository<ProjectModel, String> {
 
     @Modifying
-    @Query("UPDATE ProjectModel p SET p.lastSuccessScannerUpdate = :lastSuccessScannerUpdate WHERE p.id = :id")
-    void setLastSuccessScannerUpdate(@Param("lastSuccessScannerUpdate") Timestamp lastSuccessScannerUpdate,
-                                     @Param("id") UUID id);
+    @Query("UPDATE ProjectModel p SET p.updatedAt = :scannerUpdatedAt WHERE p.id = :id")
+    void setScannerUpdate(@Param("scannerUpdatedAt") Timestamp scannerUpdatedAt,
+                          @Param("id") UUID id);
 
 }

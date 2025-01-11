@@ -34,7 +34,7 @@ public class ProjectModel extends AbstractModel {
 
     private String projectExternalId3;
 
-    private Timestamp lastSuccessScannerUpdate;
+    private Timestamp updatedAt;
 
     @OneToMany(mappedBy = "project")
     @JsonBackReference

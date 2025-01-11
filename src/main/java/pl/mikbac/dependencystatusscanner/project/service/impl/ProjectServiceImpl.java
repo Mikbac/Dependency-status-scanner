@@ -40,7 +40,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectModel> findProjectsByOldestEntry(final int batchSize) {
-        final Pageable pageable = PageRequest.of(0, batchSize, Sort.Direction.ASC, "lastSuccessScannerUpdate");
+        final Pageable pageable = PageRequest.of(0, batchSize, Sort.Direction.ASC, "updatedAt");
         return projectRepository.findAll(pageable).stream().toList();
     }
 
@@ -48,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public void saveProjectStatusRecord(final ProjectStatusRecordModel projectStatusRecord) {
         projectStatusRepository.save(projectStatusRecord);
-        projectRepository.setLastSuccessScannerUpdate(new Timestamp(System.currentTimeMillis()),
+        projectRepository.setScannerUpdate(new Timestamp(System.currentTimeMillis()),
                 projectStatusRecord.getProject().getId());
     }
 }
