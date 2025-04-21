@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.3"
+    id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.4"
 }
 
@@ -33,6 +33,8 @@ dependencies {
             replacedBy("org.springframework.boot:spring-boot-starter-log4j2", "Use Log4j2 instead of Logback")
         }
     }
+
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
 
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.2")
 
@@ -68,7 +70,7 @@ tasks.jar {
     }
 }
 
-tasks.create("fatJar", Jar::class) {
+tasks.register("fatJar", Jar::class) {
     group = "build"
     archiveBaseName = project.name
     archiveClassifier = "fat"

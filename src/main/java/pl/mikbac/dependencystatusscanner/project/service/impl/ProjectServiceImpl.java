@@ -49,6 +49,6 @@ public class ProjectServiceImpl implements ProjectService {
     public void saveProjectStatusRecord(final ProjectStatusRecordModel projectStatusRecord) {
         projectStatusRepository.save(projectStatusRecord);
         projectRepository.setScannerUpdate(new Timestamp(System.currentTimeMillis()),
-                projectStatusRecord.getProject().getId());
+                projectStatusRecord.project().getId());
     }
 }

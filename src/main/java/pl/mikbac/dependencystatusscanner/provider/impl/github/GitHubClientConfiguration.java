@@ -18,7 +18,7 @@ import java.time.Duration;
 
 @Configuration
 @ConditionalOnProperty(prefix = "projects.provider.github", name = "active")
-public class GitHubProviderConfiguration {
+public class GitHubClientConfiguration {
 
     public static final String GITHUB_PROVIDER = "githubProvider";
     public static final String GITHUB_CLIENT = "githubClient";

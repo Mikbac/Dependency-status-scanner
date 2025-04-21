@@ -14,6 +14,10 @@ graph TD;
     projects-->project_status_records;
 ```
 
+## Swagger
+
+Swagger is available by default through http://localhost:8080/api-docs-ui.
+
 ## Building container image
 
 Building a container image (multistage build with copied gradle wrapper to use the same version of gradle):
@@ -86,11 +90,10 @@ Metrics are available via:
 
 * [ ] Circuit Breaker Resillience4j
 * [ ] OpenApi
-* [ ] Swagger
 * [ ] Hateos
 * [ ] Redis
 * [ ] Grafana
-* [ ] Split providers to modules + convention plugins
+* [ ] Split providers to modules + convention plugins (core + providers)
 * [ ] Support for Cassandra/ScyllaDB
 * [ ] Spring security - token
 * [ ] BOM file import

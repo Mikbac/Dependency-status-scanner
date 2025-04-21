@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -17,9 +18,10 @@ import static jakarta.persistence.FetchType.LAZY;
  */
 
 @Entity
-@Table(name = "projects")
+@Table(schema = "dependency_scanner", name = "projects")
 @Getter
 @Setter
+@Accessors(fluent = true)
 public class ProjectModel extends AbstractModel {
 
     private String projectCode;
@@ -36,7 +38,7 @@ public class ProjectModel extends AbstractModel {
 
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = LAZY)
     @JsonBackReference
     private Set<DependencyModel> dependencies;
 

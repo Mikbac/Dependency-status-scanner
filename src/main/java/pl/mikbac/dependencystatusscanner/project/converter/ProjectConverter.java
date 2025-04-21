@@ -22,20 +22,20 @@ import java.util.Set;
 public class ProjectConverter {
 
     public static ProjectData toProjectData(final ProjectModel project) {
-        final ProjectStatusData projectStatus = toLastStatusRecord(project.getProjectStatusRecords())
+        final ProjectStatusData projectStatus = toLastStatusRecord(project.projectStatusRecords())
                 .map(ProjectConverter::toProjectStatusData)
                 .orElse(null);
         return ProjectData.builder()
-                .code(project.getProjectCode())
-                .name(project.getName())
+                .code(project.projectCode())
+                .name(project.name())
                 .projectStatus(projectStatus)
-                .lastUpdate(toLastUpdateDate(project.getUpdatedAt()))
+                .lastUpdate(toLastUpdateDate(project.updatedAt()))
                 .build();
     }
 
     private static ProjectStatusData toProjectStatusData(final ProjectStatusRecordModel projectStatusRecord) {
         return ProjectStatusData.builder()
-                .openIssues(projectStatusRecord.getOpenIssues())
+                .openIssues(projectStatusRecord.openIssues())
                 .build();
     }
 
