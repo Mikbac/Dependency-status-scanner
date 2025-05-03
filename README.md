@@ -2,9 +2,9 @@
 
 ## Providers
 
-| Id               | Description                       | Parameters                                                                                    |
-|------------------|-----------------------------------|-----------------------------------------------------------------------------------------------|
-| `githubProvider` | Project data provider from GitHub | `project_provider_id_1` - GitHub account<br> `project_provider_id_2` - GitHub repository name |
+| Id                | Description                       | Parameters                                                                                    |
+|-------------------|-----------------------------------|-----------------------------------------------------------------------------------------------|
+| `GITHUB_PROVIDER` | Project data provider from GitHub | `project_provider_id_1` - GitHub account<br> `project_provider_id_2` - GitHub repository name |
 
 ## DB diagram
 
@@ -105,4 +105,3 @@ Metrics are available via:
 * [ ] OWASP dependency-check gradle plugin
 * [ ] Automatically build and run unit tests
 * [ ] Automatic deployment to dockerhub
-* [ ] Embedded postgres for testing

@@ -1,4 +1,4 @@
-CREATE TYPE provider AS ENUM ('githubProvider');
+CREATE TYPE provider AS ENUM ('GITHUB_PROVIDER');
 
 CREATE TABLE projects
 (

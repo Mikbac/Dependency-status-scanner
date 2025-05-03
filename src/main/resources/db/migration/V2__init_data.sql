@@ -1,12 +1,12 @@
 INSERT INTO projects (project_code, name, provider_code, project_external_id1, project_external_id2)
 VALUES
-    ('spring_framework', 'Spring Framework', 'githubProvider', 'spring-projects', 'spring-framework'),
-    ('spring_boot', 'Spring Boot', 'githubProvider', 'spring-projects', 'spring-boot'),
-    ('spring_security', 'Spring Security', 'githubProvider', 'spring-projects', 'spring-security'),
-    ('spring_ai', 'Spring AI', 'githubProvider', 'spring-projects', 'spring-ai'),
-    ('spring_shell', 'Spring Shell', 'githubProvider', 'spring-projects', 'spring-shell'),
-    ('spring_amqp', 'Spring AMQP', 'githubProvider', 'spring-projects', 'spring-amqp'),
-    ('spring_kafka', 'Spring for Apache Kafka', 'githubProvider', 'spring-projects', 'spring-kafka');
+    ('spring_framework', 'Spring Framework', 'GITHUB_PROVIDER', 'spring-projects', 'spring-framework'),
+    ('spring_boot', 'Spring Boot', 'GITHUB_PROVIDER', 'spring-projects', 'spring-boot'),
+    ('spring_security', 'Spring Security', 'GITHUB_PROVIDER', 'spring-projects', 'spring-security'),
+    ('spring_ai', 'Spring AI', 'GITHUB_PROVIDER', 'spring-projects', 'spring-ai'),
+    ('spring_shell', 'Spring Shell', 'GITHUB_PROVIDER', 'spring-projects', 'spring-shell'),
+    ('spring_amqp', 'Spring AMQP', 'GITHUB_PROVIDER', 'spring-projects', 'spring-amqp'),
+    ('spring_kafka', 'Spring for Apache Kafka', 'GITHUB_PROVIDER', 'spring-projects', 'spring-kafka');
 
 INSERT INTO dependencies (code, project_id, dep_group, dep_artifact)
 VALUES

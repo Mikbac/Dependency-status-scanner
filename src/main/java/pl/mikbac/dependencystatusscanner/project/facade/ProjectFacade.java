@@ -5,7 +5,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.mikbac.dependencystatusscanner.project.converter.PageConverter;
 import pl.mikbac.dependencystatusscanner.project.converter.ProjectConverter;
-import pl.mikbac.dependencystatusscanner.project.data.ProjectData;
+import pl.mikbac.dependencystatusscanner.project.data.ProjectRequestData;
+import pl.mikbac.dependencystatusscanner.project.data.ProjectResponseData;
 import pl.mikbac.dependencystatusscanner.project.data.ResponsePageData;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 import pl.mikbac.dependencystatusscanner.project.service.PageModel;
@@ -14,6 +15,7 @@ import pl.mikbac.dependencystatusscanner.provider.ProjectDataProvider;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -27,10 +29,10 @@ public class ProjectFacade {
     private final ProjectService projectService;
     private final Map<String, ProjectDataProvider> projectsProviders;
 
-    public ResponsePageData<ProjectData> getAllProjects(final int pageNumber, final int pageSize) {
+    public ResponsePageData<ProjectResponseData> getAllProjects(final int pageNumber, final int pageSize) {
         final PageModel<ProjectModel> projectPage = projectService.findAllProjects(pageNumber, pageSize);
-        final List<ProjectData> projectData = projectPage
-                .projects()
+        final List<ProjectResponseData> projectData = projectPage
+                .elements()
                 .stream()
                 .map(ProjectConverter::toProjectData)
                 .toList();
@@ -38,16 +40,27 @@ public class ProjectFacade {
         return PageConverter.toResponsePageData(projectData, pageNumber, pageSize, projectPage.totalElements());
     }
 
+    public ProjectResponseData getProjectByCode(final String projectCode) {
+        return projectService.findProjectByCode(projectCode)
+                .map(ProjectConverter::toProjectData)
+                .orElseThrow(() -> new NoSuchElementException("Project not found!"));
+    }
+
     public List<ProjectModel> getProjectsByOldestEntry(final int batchSize) {
-        return projectService.findProjectsByOldestEntry(batchSize);
+        return projectService.findProjectsByOldestUpdateAt(batchSize);
+    }
+
+    public void addProject(final ProjectRequestData projectData) {
+        final ProjectModel projectModel = ProjectConverter.toProjectModel(projectData);
+        projectService.addNewProject(projectModel);
     }
 
     @Async
     public void updateProject(final ProjectModel project) {
-        final ProjectDataProvider provider = projectsProviders.get(project.providerCode());
+        final ProjectDataProvider provider = projectsProviders.get(project.providerCode().serviceId());
         if (Objects.isNull(provider)) {
             throw new IllegalArgumentException("Unsupported or inactive provider: " + project.providerCode());
         }
-        projectService.saveProjectStatusRecord(provider.getProjectUpdateRecord(project));
+        projectService.addNewProjectStatusRecord(provider.getProjectUpdateRecord(project));
     }
 }

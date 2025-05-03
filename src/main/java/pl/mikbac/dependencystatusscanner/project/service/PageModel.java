@@ -9,6 +9,6 @@ import java.util.List;
  */
 
 @Builder
-public record PageModel<T>(List<T> projects,
+public record PageModel<T>(List<T> elements,
                            long totalElements) {
 }

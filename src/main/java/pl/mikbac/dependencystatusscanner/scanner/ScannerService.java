@@ -19,7 +19,7 @@ public class ScannerService {
     private final ProjectFacade projectService;
     private final ProjectsProperties projectsProperties;
 
-    @Scheduled(cron = "${projects.scanner.cron}")
+    @Scheduled(cron = "${projects.scanner.cron:-}")
     public void scheduleProjectsUpdate() {
         LOGGER.info("Started projects update.");
         projectService.getProjectsByOldestEntry(projectsProperties.scanner().batchSize())

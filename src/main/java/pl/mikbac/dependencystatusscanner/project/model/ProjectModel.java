@@ -2,11 +2,16 @@ package pl.mikbac.dependencystatusscanner.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -18,7 +23,7 @@ import static jakarta.persistence.FetchType.LAZY;
  */
 
 @Entity
-@Table(schema = "dependency_scanner", name = "projects")
+@Table(name = "projects")
 @Getter
 @Setter
 @Accessors(fluent = true)
@@ -28,7 +33,9 @@ public class ProjectModel extends AbstractModel {
 
     private String name;
 
-    private String providerCode;
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private Provider providerCode;
 
     private String projectExternalId1;
 
@@ -36,6 +43,7 @@ public class ProjectModel extends AbstractModel {
 
     private String projectExternalId3;
 
+    @CreationTimestamp
     private Timestamp updatedAt;
 
     @OneToMany(mappedBy = "project", fetch = LAZY)

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -22,4 +23,5 @@ public interface ProjectRepository extends JpaRepository<ProjectModel, String> {
     void setScannerUpdate(@Param("scannerUpdatedAt") Timestamp scannerUpdatedAt,
                           @Param("id") UUID id);
 
+    Optional<ProjectModel> findFirstByProjectCode(String projectCode);
 }

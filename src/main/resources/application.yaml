@@ -17,6 +17,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: validate
+        default_schema: ${DATABASE_SCHEMA:dependency_scanner}
   flyway:
     url: ${DATABASE_URL}
     user: ${DATABASE_USERNAME}

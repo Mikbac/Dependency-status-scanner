@@ -16,7 +16,7 @@ import static jakarta.persistence.FetchType.LAZY;
  */
 
 @Entity
-@Table(schema = "dependency_scanner", name = "dependencies")
+@Table(name = "dependencies")
 @Getter
 @Setter
 @Accessors(fluent = true)
