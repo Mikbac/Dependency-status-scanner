@@ -1,6 +1,8 @@
 package pl.mikbac.dependencystatusscanner.provider.impl.github;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -15,6 +17,7 @@ import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClien
 
 @Service(GITHUB_CLIENT)
 @ConditionalOnBean(name = GITHUB_PROVIDER_REST_CLIENT)
+@Slf4j
 @RequiredArgsConstructor
 public class GitHubClient {
 
@@ -22,8 +25,15 @@ public class GitHubClient {
 
     private final RestClient restClient;
 
+    @CircuitBreaker(name = "GitHubRepositoryDetails", fallbackMethod = "getProjectDetailsFallback")
     GitHubRepositoryModel getProjectDetails(final ProjectModel project) {
         return restClient.get().uri(REPOSITORY_PATH_FORMAT, project.projectExternalId1(), project.projectExternalId2()).retrieve().toEntity(GitHubRepositoryModel.class).getBody();
+    }
+
+    GitHubRepositoryModel getProjectDetailsFallback(final ProjectModel project, Throwable error) {
+        LOGGER.error("GitHub API is unavailable, fetching new data is impossible!");
+        LOGGER.error("Error from GitHub API: " + error.getMessage());
+        return null;
     }
 
 }

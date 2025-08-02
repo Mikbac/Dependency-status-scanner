@@ -1,6 +1,7 @@
 package pl.mikbac.dependencystatusscanner.project.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class ProjectController {
 
     @PostMapping
     @Operation(summary = "Add a new project.", description = "Insert a new project.")
-    public ResponseEntity<Void> addProject(final @RequestBody ProjectRequestData project) {
+    public ResponseEntity<Void> addProject(final @Valid @RequestBody ProjectRequestData project) {
         projectService.addProject(project);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

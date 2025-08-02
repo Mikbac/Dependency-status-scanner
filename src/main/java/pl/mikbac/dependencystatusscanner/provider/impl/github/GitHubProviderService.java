@@ -8,6 +8,8 @@ import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectStatusRecordModel;
 import pl.mikbac.dependencystatusscanner.provider.ProjectDataProvider;
 
+import java.util.Optional;
+
 import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_CLIENT;
 import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_PROVIDER;
 
@@ -24,8 +26,9 @@ public class GitHubProviderService implements ProjectDataProvider {
 
     @Override
     @SneakyThrows
-    public ProjectStatusRecordModel getProjectUpdateRecord(final ProjectModel project) {
+    public Optional<ProjectStatusRecordModel> getProjectUpdateRecord(final ProjectModel project) {
         final GitHubRepositoryModel repository = gitHubClient.getProjectDetails(project);
-        return ProjectDetailsConverter.convert(project, repository);
+        return Optional.ofNullable(repository)
+                .map(r -> ProjectDetailsConverter.convert(project, r));
     }
 }

@@ -35,6 +35,18 @@ projects:
       connection-timeout: ${GITHUB_CONNECTION_TIMEOUT:30}
       read-timeout: ${GITHUB_READ_TIMEOUT:30}
 
+resilience4j:
+  circuitbreaker:
+    instances:
+      GitHubRepositoryDetails:
+        failure-rate-threshold: 40
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10m
+        permitted-number-of-calls-in-half-open-state: 4
+        sliding-window-type: count_based
+        sliding-window-size: 10
+
 springdoc:
   swagger-ui:
     path: /api-docs-ui
@@ -42,6 +54,12 @@ springdoc:
   api-docs:
     path: /api-docs
     enabled: ${SPRINGDOC_ENABLE:true}
+
+server:
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 2048
 
 management:
   server:

@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class DependencyFacade {
 
-    final ProjectService projectService;
+    private final ProjectService projectService;
 
     public ResponsePageData<DependencyResponseData> getAllDependencies(final int pageNumber, final int pageSize) {
         final PageModel<DependencyModel> dependencyPage = projectService.findAllDependencies(pageNumber, pageSize);
@@ -38,10 +38,13 @@ public class DependencyFacade {
     public DependencyResponseData getDependencyByCode(final String dependencyCode) {
         return projectService.findDependencyByCode(dependencyCode)
                 .map(DependencyConverter::toDependencyData)
-                .orElseThrow(() -> new NoSuchElementException("Dependency not found!"));
+                .orElseThrow(() -> new NoSuchElementException("Dependency with code " + dependencyCode + " not found!"));
     }
 
     public void addDependency(final DependencyRequestData dependencyData) {
+        projectService.findProjectByCode(dependencyData.code()).ifPresent(p -> {
+            throw new IllegalArgumentException("Dependency with code " + p + " already exists!");
+        });
         final DependencyModel dependencyModel = DependencyConverter.toDependencyModel(dependencyData);
         projectService.addNewProjectDependency(dependencyModel);
     }

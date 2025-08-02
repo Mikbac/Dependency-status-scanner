@@ -43,7 +43,7 @@ public class ProjectFacade {
     public ProjectResponseData getProjectByCode(final String projectCode) {
         return projectService.findProjectByCode(projectCode)
                 .map(ProjectConverter::toProjectData)
-                .orElseThrow(() -> new NoSuchElementException("Project not found!"));
+                .orElseThrow(() -> new NoSuchElementException("Project with code " + projectCode + " not found!"));
     }
 
     public List<ProjectModel> getProjectsByOldestEntry(final int batchSize) {
@@ -51,6 +51,9 @@ public class ProjectFacade {
     }
 
     public void addProject(final ProjectRequestData projectData) {
+        projectService.findProjectByCode(projectData.code()).ifPresent(p -> {
+            throw new IllegalArgumentException("Project with code " + p + " already exists!");
+        });
         final ProjectModel projectModel = ProjectConverter.toProjectModel(projectData);
         projectService.addNewProject(projectModel);
     }
@@ -61,6 +64,7 @@ public class ProjectFacade {
         if (Objects.isNull(provider)) {
             throw new IllegalArgumentException("Unsupported or inactive provider: " + project.providerCode());
         }
-        projectService.addNewProjectStatusRecord(provider.getProjectUpdateRecord(project));
+        provider.getProjectUpdateRecord(project)
+                .ifPresent(projectService::addNewProjectStatusRecord);
     }
 }

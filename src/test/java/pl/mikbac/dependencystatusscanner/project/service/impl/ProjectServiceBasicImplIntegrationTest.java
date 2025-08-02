@@ -1,6 +1,7 @@
 package pl.mikbac.dependencystatusscanner.project.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -40,6 +41,7 @@ class ProjectServiceBasicImplIntegrationTest {
 
     @Test
     @Sql(statements = CLEAN_TABLE_PROJECTS, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName("Should insert and find inserted projects")
     void insertAndFindProjectsTest() {
         // Given
         var project = getTestProjectModel(StringUtils.EMPTY);
@@ -58,6 +60,7 @@ class ProjectServiceBasicImplIntegrationTest {
 
     @Test
     @Sql(statements = CLEAN_TABLE_PROJECTS, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName("Should insert and find inserted project by code")
     void insertAndFindProjectByCodeTest() {
         // Given
         var project = getTestProjectModel(StringUtils.EMPTY);
@@ -75,6 +78,7 @@ class ProjectServiceBasicImplIntegrationTest {
 
     @Test
     @Sql(statements = CLEAN_TABLE_PROJECTS, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName("Should insert and find inserted dependencies")
     void insertAndFindDependenciesTest() {
         // Given
         var project = getTestProjectModel(StringUtils.EMPTY);
@@ -95,6 +99,7 @@ class ProjectServiceBasicImplIntegrationTest {
 
     @Test
     @Sql(statements = CLEAN_TABLE_PROJECTS, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName("Should insert and find inserted dependency by code")
     void insertAndFindDependencyByCodeTest() {
         // Given
         var project = getTestProjectModel(StringUtils.EMPTY);
@@ -113,6 +118,7 @@ class ProjectServiceBasicImplIntegrationTest {
 
     @Test
     @Sql(statements = CLEAN_TABLE_PROJECTS, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @DisplayName("Should insert status record and retrieve projects by oldest updateAt")
     void insertStatusRecordAndFindProjectsByOldestUpdateAtTest() {
         // Given
         var projectOne = getTestProjectModel(StringUtils.EMPTY);

@@ -88,7 +88,6 @@ Metrics are available via:
 
 ## TODO
 
-* [ ] Circuit Breaker Resillience4j
 * [ ] OpenApi
 * [ ] Hateos
 * [ ] Redis
@@ -105,3 +104,7 @@ Metrics are available via:
 * [ ] OWASP dependency-check gradle plugin
 * [ ] Automatically build and run unit tests
 * [ ] Automatic deployment to dockerhub
+* [ ] Spring Config Server
+* [ ] Spring Security (with Keycloak)
+* [ ] SpotBugs
+* [ ] Vault for secrets
