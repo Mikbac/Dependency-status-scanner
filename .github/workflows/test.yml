@@ -20,8 +20,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-#      - name: Make Gradle Wrapper executable
-#        run: chmod +x ./gradlew
+      - name: Make Gradle Wrapper executable
+        run: chmod +x ./gradlew
 #
 #      - name: Enable Testcontainers reuse
 #        run: echo "testcontainers.reuse.enable=true" > ~/.testcontainers.properties
