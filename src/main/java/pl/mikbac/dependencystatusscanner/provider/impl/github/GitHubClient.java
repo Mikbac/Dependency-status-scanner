@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 
+import java.util.Optional;
+
 import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_CLIENT;
 import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_PROVIDER_REST_CLIENT;
 
@@ -26,14 +28,18 @@ public class GitHubClient {
     private final RestClient restClient;
 
     @CircuitBreaker(name = "GitHubRepositoryDetails", fallbackMethod = "getProjectDetailsFallback")
-    GitHubRepositoryModel getProjectDetails(final ProjectModel project) {
-        return restClient.get().uri(REPOSITORY_PATH_FORMAT, project.projectExternalId1(), project.projectExternalId2()).retrieve().toEntity(GitHubRepositoryModel.class).getBody();
+    Optional<GitHubRepositoryModel> getProjectDetails(final ProjectModel project) {
+        return Optional.ofNullable(restClient.get()
+                .uri(REPOSITORY_PATH_FORMAT, project.projectExternalId1(), project.projectExternalId2())
+                .retrieve()
+                .toEntity(GitHubRepositoryModel.class)
+                .getBody());
     }
 
-    GitHubRepositoryModel getProjectDetailsFallback(final ProjectModel project, Throwable error) {
+    Optional<GitHubRepositoryModel> getProjectDetailsFallback(final ProjectModel project, Throwable error) {
         LOGGER.error("GitHub API is unavailable, fetching new data is impossible!");
-        LOGGER.error("Error from GitHub API: " + error.getMessage());
-        return null;
+        LOGGER.error("Error from GitHub API: {}", error.getMessage());
+        return Optional.empty();
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
+import pl.mikbac.dependencystatusscanner.project.model.UpdateStatus;
 
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -19,8 +20,9 @@ import java.util.UUID;
 public interface ProjectRepository extends JpaRepository<ProjectModel, String> {
 
     @Modifying
-    @Query("UPDATE ProjectModel p SET p.updatedAt = :scannerUpdatedAt WHERE p.id = :id")
+    @Query("UPDATE ProjectModel p SET p.updatedAt = :scannerUpdatedAt, p.lastUpdateStatus =:status WHERE p.id = :id")
     void setScannerUpdate(@Param("scannerUpdatedAt") Timestamp scannerUpdatedAt,
+                          @Param("status") UpdateStatus status,
                           @Param("id") UUID id);
 
     Optional<ProjectModel> findFirstByProjectCode(String projectCode);

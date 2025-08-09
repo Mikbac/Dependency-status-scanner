@@ -1,5 +1,6 @@
 package pl.mikbac.dependencystatusscanner.project.controller;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import pl.mikbac.dependencystatusscanner.project.facade.DependencyFacade;
 
 @RestController
 @RequestMapping("/dependencies/v1")
+@Bulkhead(name = "restApiBulkhead", type = Bulkhead.Type.SEMAPHORE)
 @RequiredArgsConstructor
 public class DependencyController {
 

@@ -46,6 +46,11 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 4
         sliding-window-type: count_based
         sliding-window-size: 10
+  bulkhead:
+    instances:
+      restApiBulkhead:
+        maxConcurrentCalls: 5
+        maxWaitDuration: 5000ms
 
 springdoc:
   swagger-ui:

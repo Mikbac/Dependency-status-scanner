@@ -1,5 +1,7 @@
 CREATE TYPE provider AS ENUM ('GITHUB_PROVIDER');
 
+CREATE TYPE updateStatus AS ENUM ('SUCCESS','FAILURE', 'NONE');
+
 CREATE TABLE projects
 (
     id                   UUID                     DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -8,6 +10,7 @@ CREATE TABLE projects
     project_code         TEXT UNIQUE                                        NOT NULL,
     name                 TEXT                                               NOT NULL,
     provider_code        provider                                           NOT NULL,
+    last_update_status   updateStatus             DEFAULT 'NONE'            NOT NULL,
     project_external_id1 TEXT,
     project_external_id2 TEXT,
     project_external_id3 TEXT

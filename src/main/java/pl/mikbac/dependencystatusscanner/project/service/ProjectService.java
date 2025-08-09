@@ -29,4 +29,6 @@ public interface ProjectService {
 
     void addNewProjectStatusRecord(ProjectStatusRecordModel projectStatusRecord);
 
+    void markLastProjectUpdateAsFailed(ProjectModel project);
+
 }

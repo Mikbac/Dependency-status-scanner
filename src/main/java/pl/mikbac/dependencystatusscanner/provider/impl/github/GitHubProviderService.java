@@ -27,8 +27,7 @@ public class GitHubProviderService implements ProjectDataProvider {
     @Override
     @SneakyThrows
     public Optional<ProjectStatusRecordModel> getProjectUpdateRecord(final ProjectModel project) {
-        final GitHubRepositoryModel repository = gitHubClient.getProjectDetails(project);
-        return Optional.ofNullable(repository)
-                .map(r -> ProjectDetailsConverter.convert(project, r));
+        final Optional<GitHubRepositoryModel> repository = gitHubClient.getProjectDetails(project);
+        return repository.map(r -> ProjectDetailsConverter.convert(project, r));
     }
 }

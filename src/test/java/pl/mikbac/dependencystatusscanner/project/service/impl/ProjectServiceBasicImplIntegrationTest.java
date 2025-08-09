@@ -15,6 +15,7 @@ import pl.mikbac.dependencystatusscanner.project.model.DependencyModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectStatusRecordModel;
 import pl.mikbac.dependencystatusscanner.project.model.Provider;
+import pl.mikbac.dependencystatusscanner.project.model.UpdateStatus;
 import pl.mikbac.dependencystatusscanner.project.service.ProjectService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -145,6 +146,7 @@ class ProjectServiceBasicImplIntegrationTest {
         project.name("test-project-name" + postfix);
         project.providerCode(Provider.GITHUB_PROVIDER);
         project.projectExternalId1("test-external-id" + postfix);
+        project.lastUpdateStatus(UpdateStatus.NONE);
         return project;
     }
 

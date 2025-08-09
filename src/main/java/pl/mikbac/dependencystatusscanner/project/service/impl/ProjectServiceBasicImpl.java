@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.mikbac.dependencystatusscanner.project.model.DependencyModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectStatusRecordModel;
+import pl.mikbac.dependencystatusscanner.project.model.UpdateStatus;
 import pl.mikbac.dependencystatusscanner.project.repository.DependencyRepository;
 import pl.mikbac.dependencystatusscanner.project.repository.ProjectRepository;
 import pl.mikbac.dependencystatusscanner.project.repository.ProjectStatusRepository;
@@ -86,6 +87,15 @@ public class ProjectServiceBasicImpl implements ProjectService {
     public void addNewProjectStatusRecord(final ProjectStatusRecordModel projectStatusRecord) {
         projectStatusRepository.save(projectStatusRecord);
         projectRepository.setScannerUpdate(new Timestamp(System.currentTimeMillis()),
+                UpdateStatus.SUCCESS,
                 projectStatusRecord.project().getId());
+    }
+
+    @Override
+    @Transactional
+    public void markLastProjectUpdateAsFailed(final ProjectModel project) {
+        projectRepository.setScannerUpdate(new Timestamp(System.currentTimeMillis()),
+                UpdateStatus.FAILURE,
+                project.getId());
     }
 }

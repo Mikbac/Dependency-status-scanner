@@ -65,6 +65,6 @@ public class ProjectFacade {
             throw new IllegalArgumentException("Unsupported or inactive provider: " + project.providerCode());
         }
         provider.getProjectUpdateRecord(project)
-                .ifPresent(projectService::addNewProjectStatusRecord);
+                .ifPresentOrElse(projectService::addNewProjectStatusRecord, () -> projectService.markLastProjectUpdateAsFailed(project));
     }
 }

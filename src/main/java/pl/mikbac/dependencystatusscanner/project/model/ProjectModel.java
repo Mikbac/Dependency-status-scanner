@@ -46,6 +46,10 @@ public class ProjectModel extends AbstractModel {
     @CreationTimestamp
     private Timestamp updatedAt;
 
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private UpdateStatus lastUpdateStatus;
+
     @OneToMany(mappedBy = "project", fetch = LAZY)
     @JsonBackReference
     private Set<DependencyModel> dependencies;
