@@ -58,7 +58,7 @@ public class ProjectFacade {
         projectService.addNewProject(projectModel);
     }
 
-    @Async
+    @Async("updateProjectsExecutor")
     public void updateProject(final ProjectModel project) {
         final ProjectDataProvider provider = projectsProviders.get(project.providerCode().serviceId());
         if (Objects.isNull(provider)) {

@@ -14,7 +14,7 @@ Configuration:
       name: Console_Appender
       target: SYSTEM_OUT
       PatternLayout:
-        pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        pattern: "[%-5level] [%X{correlationId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
     Socket:
       name: Socket_Appender
       host: ${env:SOCKER_LISTENER_HOST}

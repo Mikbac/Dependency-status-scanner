@@ -32,4 +32,4 @@ HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
   CMD curl -f http://localhost:8081/actuator/health/readiness || exit 1
 
 ENTRYPOINT ["java","-jar","/opt/app/app.jar"]
-CMD ["-XX:MaxRAMPercentage=80.0"]
+CMD ["-XX:InitialRAMPercentage=25.0", "-XX:MinRAMPercentage=25.0", "-XX:MaxRAMPercentage=75.0"]

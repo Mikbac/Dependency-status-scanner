@@ -27,12 +27,16 @@ projects:
   scanner:
     cron: ${PROJECTS_SCANNER_CRON:0 */5 * * * *}
     batch-size: ${PROJECTS_SCANNER_BATCH_SIZE:10}
+    async-executor:
+      core-pool-size: 0
+      max-pool-size: 100
+      queue-capacity: 500
   provider:
     github:
       active: ${GITHUB_ACTIVE:true}
       url: ${GITHUB_URL:https://api.github.com/}
       token: ${GITHUB_TOKEN}
-      connection-timeout: ${GITHUB_CONNECTION_TIMEOUT:30}
+      connection-timeout: ${GITHUB_CONNECTION_TIMEOUT:2}
       read-timeout: ${GITHUB_READ_TIMEOUT:30}
 
 resilience4j:
