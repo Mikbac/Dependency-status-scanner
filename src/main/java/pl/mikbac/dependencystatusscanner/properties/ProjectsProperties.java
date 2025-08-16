@@ -19,6 +19,12 @@ public record ProjectsProperties(ScannerProperties scanner,
             @NotNull(message = "Connection timeout should not be null.")
             @PositiveOrZero(message = "Batch size should be greater than or equal to 0.") int batchSize,
             AsyncExecutorProperties asyncExecutor) {
+        public record AsyncExecutorProperties(
+                @PositiveOrZero(message = "Core pool size should be greater than or equal to 0.") int corePoolSize,
+                @PositiveOrZero(message = "Max pool size should be greater than or equal to 0.") int maxPoolSize,
+                @PositiveOrZero(message = "Queue capacity should be greater than or equal to 0.") int queueCapacity) {
+
+        }
     }
 
     public record ProviderProperties(GithubProperties github) {
@@ -28,12 +34,5 @@ public record ProjectsProperties(ScannerProperties scanner,
                 @PositiveOrZero(message = "Connection timeout should be greater than or equal to 0.") int connectionTimeout,
                 @PositiveOrZero(message = "Read timeout should be greater than or equal to 0.") int readTimeout) {
         }
-    }
-
-    public record AsyncExecutorProperties(
-            @PositiveOrZero(message = "Core pool size should be greater than or equal to 0.") int corePoolSize,
-            @PositiveOrZero(message = "Max pool size should be greater than or equal to 0.") int maxPoolSize,
-            @PositiveOrZero(message = "Queue capacity should be greater than or equal to 0.") int queueCapacity) {
-
     }
 }

@@ -1,0 +1,6 @@
+projects:
+  scanner:
+    async-executor:
+      core-pool-size: 0
+      max-pool-size: 10
+      queue-capacity: 50
