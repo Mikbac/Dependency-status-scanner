@@ -108,3 +108,4 @@ Metrics are available via:
 * [ ] Spring Security (with Keycloak)
 * [ ] SpotBugs
 * [ ] Vault for secrets
+* [ ] Dependabot
