@@ -46,7 +46,18 @@ dependencies {
 
     implementation(libs.apache.commons.lang3)
 
+    implementation(platform(libs.micrometer.bom.get().toString()))
+    implementation(libs.micrometer.core)
     implementation(libs.micrometer.registry.prometheus)
+    implementation(libs.micrometer.registry.otlp)
+
+    implementation(platform(libs.micrometer.tracing.bom.get().toString()))
+    implementation(libs.micrometer.tracing)
+    implementation(libs.micrometer.tracing.bridge.otel)
+
+    implementation(libs.opentelemetry.exporter.otlp)
+
+    implementation(libs.logbook.spring.boot.starter)
 
     compileOnly(libs.lombok)
 

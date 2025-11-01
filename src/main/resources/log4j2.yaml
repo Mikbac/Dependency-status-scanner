@@ -14,7 +14,7 @@ Configuration:
       name: Console_Appender
       target: SYSTEM_OUT
       PatternLayout:
-        pattern: "[%-5level] [%X{correlationId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        pattern: "[%-5level] [%X{correlationId}] [%X{traceId}] [%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
     Socket:
       name: Socket_Appender
       host: ${env:SOCKER_LISTENER_HOST}
@@ -28,6 +28,12 @@ Configuration:
           - key: appName
             value: Dependency-status-scanner
   Loggers:
+    Logger:
+      - name: org.zalando.logbook.Logbook
+        level: "TRACE"
+        additivity: false
+        AppenderRef:
+          - ref: Console_Appender
     Root:
       level: "INFO"
       AppenderRef:

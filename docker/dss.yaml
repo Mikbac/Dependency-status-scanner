@@ -4,12 +4,13 @@
 include:
   - db/postgres.yaml
   - elk/elk.yaml
+  - observability/observability.yaml
 services:
   dependency-status-scanner:
     container_name: dependency-status-scanner
     image: mikbac/dependency-status-scanner:1.0
     profiles:
-      - dsc-app
+      - dss-app
     hostname: dependency-status-scanner
     ports:
       - '8080:8080'
@@ -23,6 +24,8 @@ services:
       - GITHUB_TOKEN=
       - SOCKER_LISTENER_HOST=filebeat
       - SOCKER_LISTENER_PORT=4560
+      - ALLOY_METRICS_URL=http://alloy:4318/v1/metrics
+      - ALLOY_TRACING_ENDPOINT=alloy:4317
     depends_on:
       - postgres-db
       - filebeat
@@ -33,7 +36,7 @@ services:
           cpus: "1"
           memory: 1g
     networks:
-      - dsc-network
+      - dss-network
 
 networks:
-  dsc-network:
+  dss-network:

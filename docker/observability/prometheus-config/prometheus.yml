@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+#  - job_name: 'Dependency status scanner (local)'
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: ["host.docker.internal:8081"]
+#  - job_name: 'Dependency status scanner (container)'
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: ['dependency-status-scanner:8081']
+  - job_name: 'PostgreSQL'
+    static_configs:
+      - targets: [ 'postgres-exporter:9187' ]

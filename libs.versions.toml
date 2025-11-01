@@ -9,7 +9,10 @@ flyway = "10.12.0"
 postgresql = "42.7.3"
 apache-commons-lang3 = "3.18.0"
 resilience4j = "2.3.0"
-micrometer = "1.13.6"
+micrometer-bom = "1.15.4"
+micrometer-tracing-bom = "1.5.4"
+opentelemetry = "1.43.0"
+logbook = "3.12.3"
 
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
@@ -40,7 +43,18 @@ apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.re
 
 resilience4j-spring-boot3 = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4j" }
 
-micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
+micrometer-bom = { module = "io.micrometer:micrometer-bom", version.ref = "micrometer-bom" }
+micrometer-core = { module = "io.micrometer:micrometer-core" }
+micrometer-registry-otlp = { module = "io.micrometer:micrometer-registry-otlp" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+
+micrometer-tracing-bom = { module = "io.micrometer:micrometer-tracing-bom", version.ref = "micrometer-tracing-bom" }
+micrometer-tracing = { module = "io.micrometer:micrometer-tracing" }
+micrometer-tracing-bridge-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
+
+opentelemetry-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporter-otlp", version.ref = "opentelemetry" }
+
+logbook-spring-boot-starter = { module = "org.zalando:logbook-spring-boot-starter", version.ref = "logbook" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

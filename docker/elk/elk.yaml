@@ -21,7 +21,7 @@ services:
           memory: 1g
     networks:
       - elk-network
-      - dsc-network
+      - dss-network
   logstash:
     container_name: logstash
     image: elastic/logstash:8.15.1

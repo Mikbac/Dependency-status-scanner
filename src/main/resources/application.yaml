@@ -28,9 +28,9 @@ projects:
     cron: ${PROJECTS_SCANNER_CRON:0 */5 * * * *}
     batch-size: ${PROJECTS_SCANNER_BATCH_SIZE:10}
     async-executor:
-      core-pool-size: 0
-      max-pool-size: 100
-      queue-capacity: 500
+      core-pool-size: 2
+      max-pool-size: 10
+      queue-capacity: 50
   provider:
     github:
       active: ${GITHUB_ACTIVE:true}
@@ -70,7 +70,33 @@ server:
     mime-types: application/json
     min-response-size: 2048
 
+logbook:
+  format:
+    style: json
+  predicate:
+    exclude:
+      - path: /actuator/**
+  obfuscate:
+    headers:
+      - Authorization
+      - Cookie
+    parameters:
+      - password
+
 management:
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        url: ${ALLOY_METRICS_URL:http://localhost:4318/v1/metrics}
+    tracing:
+      export:
+        enabled: true
+      endpoint: ${ALLOY_TRACING_ENDPOINT:http://localhost:4317}
+      transport: grpc
+  tracing:
+    sampling:
+      probability: 1
   server:
     port: 8081
   endpoint:

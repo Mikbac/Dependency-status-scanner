@@ -1,5 +1,22 @@
 # Dependency status scanner
 
+
+```mermaid
+graph TD;
+    Dependency&nbspStatus&nbspScanner-->PostgreSQL;
+    Dependency&nbspStatus&nbspScanner-->Filebeat;
+    Prometheus-->|Prometheus pulls metrics from app &#40optional, disabled by default&#41|Dependency&nbspStatus&nbspScanner;
+    Filebeat-->Logstash;
+    Logstash-->Elasticsearch;
+    Kibana-->Elasticsearch;
+    Dependency&nbspStatus&nbspScanner-->|send metrics by OTLP|Alloy;
+    Alloy-->|Alloy push metrics to Grafana &#40optional, active by default&#41|Prometheus;
+    Alloy-->Temp;
+    Grafana-->Prometheus;
+    Grafana-->Temp;
+```
+
+
 ## Providers
 
 | Id                | Description                       | Parameters                                                                                    |
@@ -26,35 +43,39 @@ Building a container image (multistage build with copied gradle wrapper to use t
 docker build -t mikbac/dependency-status-scanner:1.0 .
 ```
 
-Running docker compose app (with postgres and ELK stack):
+Running docker compose app (with postgres, ELK stack and observability):
 
 ```shell
-docker compose -f ./docker/dsc.yaml \
+docker compose -f ./docker/dss.yaml \
   --profile postgres-db \
   --profile elk  \
-  --profile dsc-app  \
+  --profile dss-app  \
+  --profile observability  \
   up -d
 ```
 
-## Postgres & ELK
+## Postgres & ELK & Observability
 
 ### Docker compose
 
 Running docker compose with postgres and Filebeat (recommended for local development):
 
 ```shell
-docker compose -f ./docker/dsc.yaml \
+docker compose -f ./docker/dss.yaml \
   --profile postgres-db \
   --profile filebeat  \
+  --profile observability  \
   up -d
 ```
 
-Running docker compose with postgres and ELK (Filebeat + Logstash + Elasticsearch + Kibana) stack:
+Running docker compose with postgres, ELK (Filebeat + Logstash + Elasticsearch + Kibana)
+and observability (Alloy + Prometheus + Tempo + Grafana) stack:
 
 ```shell
-docker compose -f ./docker/dsc.yaml \
+docker compose -f ./docker/dss.yaml \
   --profile postgres-db \
   --profile elk  \
+  --profile observability  \
   up -d
 ```
 
@@ -72,11 +93,15 @@ catalog ([Kibana-data-view](kibana/Kibana-data-view.ndjson)).
 
 ## Metrics
 
-Metrics are available via:
+Actuator metrics are available via:
 
-* Health: http://localhost:8080/actuator/health
-* Flyway: http://localhost:8080/actuator/flyway
-* Prometheus: http://localhost:8080/actuator/prometheus
+* Health: http://localhost:8081/actuator/health
+* Flyway: http://localhost:8081/actuator/flyway
+* Prometheus: http://localhost:8081/actuator/prometheus (disabled)
+
+Prometheus http://localhost:9090/targets
+
+Grafana http://localhost:3000/
 
 ## Upgrading gradle version
 
@@ -91,7 +116,7 @@ Metrics are available via:
 * [ ] OpenApi
 * [ ] Hateos
 * [ ] Redis
-* [ ] Grafana
+* [ ] Grafana - diagrams
 * [ ] Split providers to modules + convention plugins (core + providers)
 * [ ] Support for Cassandra/ScyllaDB
 * [ ] Spring security - token

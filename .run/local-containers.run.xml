@@ -14,7 +14,7 @@
             <option value="elk" />
           </list>
         </option>
-        <option name="sourceFilePath" value="docker/dsc.yaml" />
+        <option name="sourceFilePath" value="docker/dss.yaml" />
       </settings>
     </deployment>
     <method v="2" />

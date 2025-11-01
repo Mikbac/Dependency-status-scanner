@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
+import org.zalando.logbook.Logbook;
+import org.zalando.logbook.spring.LogbookClientHttpRequestInterceptor;
 import pl.mikbac.dependencystatusscanner.properties.ProjectsProperties;
 
 import java.time.Duration;
@@ -32,9 +34,11 @@ public class GitHubClientConfiguration {
 
     @Bean(GITHUB_PROVIDER_REST_CLIENT)
     public RestClient githubRestClient(@Qualifier(GITHUB_PROVIDER_REQUEST_FACTORY) final ClientHttpRequestFactory requestFactory,
-                                       final ProjectsProperties properties) {
+                                       final ProjectsProperties properties,
+                                       final Logbook logbook) {
         return RestClient.builder()
                 .requestFactory(requestFactory)
+                .requestInterceptor(new LogbookClientHttpRequestInterceptor(logbook))
                 .baseUrl(properties.provider().github().url())
                 .defaultHeaders(hh -> {
                     final String token = properties.provider().github().token();

@@ -23,7 +23,20 @@ services:
       - db-storage:/var/lib/postgresql/data
     networks:
       - postgres-network
-      - dsc-network
+      - dss-network
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.17.1
+    profiles:
+      - observability
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgres1@postgres:5432/dependency_status_database?sslmode=disable"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1g
+    networks:
+      - dss-network
 
 volumes:
   db-storage:
