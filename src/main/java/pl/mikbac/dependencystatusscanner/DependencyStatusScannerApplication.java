@@ -12,7 +12,8 @@ import pl.mikbac.dependencystatusscanner.properties.ProjectsProperties;
 @SpringBootApplication(scanBasePackages = {
         "pl.mikbac.dependencystatusscanner.project",
         "pl.mikbac.dependencystatusscanner.scanner",
-        "pl.mikbac.dependencystatusscanner.provider"
+        "pl.mikbac.dependencystatusscanner.provider",
+        "pl.mikbac.dependencystatusscanner.metrics"
 })
 @EntityScan(basePackages = "pl.mikbac.dependencystatusscanner.project.model")
 @EnableConfigurationProperties(ProjectsProperties.class)

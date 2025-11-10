@@ -50,6 +50,14 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 4
         sliding-window-type: count_based
         sliding-window-size: 10
+      GitHubResourcesStatus:
+        failure-rate-threshold: 40
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10m
+        permitted-number-of-calls-in-half-open-state: 4
+        sliding-window-type: count_based
+        sliding-window-size: 10
   bulkhead:
     instances:
       restApiBulkhead:
@@ -105,6 +113,7 @@ management:
     health:
       probes:
         enabled: true
+      show-details: always
   endpoints:
     web:
       exposure:

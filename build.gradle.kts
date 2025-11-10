@@ -2,6 +2,7 @@ plugins {
     java
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.dependency.management)
+    alias(libs.plugins.cyclonedx.bom)
 }
 
 group = "pl.mikbac"
@@ -98,4 +99,20 @@ tasks.register("fatJar", Jar::class) {
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.cyclonedxDirectBom {
+    projectType = org.cyclonedx.model.Component.Type.APPLICATION
+    componentVersion = project.version.toString()
+
+    schemaVersion = org.cyclonedx.Version.VERSION_16
+    xmlOutput.unsetConvention()
+
+    includeConfigs = listOf("runtimeClasspath")
+    skipConfigs = listOf("testRuntimeClasspath")
+
+    includeBomSerialNumber = true
+    includeLicenseText = true
+    includeMetadataResolution = true
+    includeBuildSystem = true
 }

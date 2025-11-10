@@ -96,12 +96,21 @@ catalog ([Kibana-data-view](kibana/Kibana-data-view.ndjson)).
 Actuator metrics are available via:
 
 * Health: http://localhost:8081/actuator/health
+* Services health check: http://localhost:8081/actuator/health/services
 * Flyway: http://localhost:8081/actuator/flyway
-* Prometheus: http://localhost:8081/actuator/prometheus (disabled)
+* Prometheus: http://localhost:8081/actuator/prometheus
 
 Prometheus http://localhost:9090/targets
 
 Grafana http://localhost:3000/
+
+## Generate SBOM
+
+```shell
+./gradlew cyclonedxDirectBom
+```
+
+Report: `build/reports/cyclonedx-direct/bom.json`
 
 ## Upgrading gradle version
 

@@ -1,6 +1,7 @@
 [versions]
 spring-boot = "3.4.4"
 spring-dependency-management = "1.1.4"
+cyclonedx-bom = "3.0.1"
 springdoc-openapi-starter-webmvc-ui = "2.8.6"
 jackson-dataformat-yaml = "2.17.2"
 lombok = "1.18.38"
@@ -59,3 +60,4 @@ logbook-spring-boot-starter = { module = "org.zalando:logbook-spring-boot-starte
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+cyclonedx-bom = { id = "org.cyclonedx.bom", version.ref = "cyclonedx-bom" }

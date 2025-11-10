@@ -22,7 +22,7 @@ import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClien
 @Service(GITHUB_PROVIDER)
 @ConditionalOnBean(name = GITHUB_CLIENT)
 @RequiredArgsConstructor
-public class GitHubProviderService implements ProjectDataProvider {
+public class GitHubDataProviderService implements ProjectDataProvider {
 
     private final GitHubClient gitHubClient;
 
