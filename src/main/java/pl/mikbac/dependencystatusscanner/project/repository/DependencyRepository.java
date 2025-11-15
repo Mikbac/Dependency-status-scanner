@@ -1,5 +1,8 @@
 package pl.mikbac.dependencystatusscanner.project.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.mikbac.dependencystatusscanner.project.model.DependencyModel;
@@ -13,5 +16,9 @@ import java.util.Optional;
 @Repository
 public interface DependencyRepository extends JpaRepository<DependencyModel, String> {
 
+    @EntityGraph(attributePaths = {"projects"})
     Optional<DependencyModel> findByCode(String code);
+
+    @EntityGraph(attributePaths = {"projects"})
+    Page<DependencyModel> findAll(Pageable pageable);
 }

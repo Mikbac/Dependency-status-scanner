@@ -1,5 +1,8 @@
 package pl.mikbac.dependencystatusscanner.project.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +28,9 @@ public interface ProjectRepository extends JpaRepository<ProjectModel, String> {
                           @Param("status") UpdateStatus status,
                           @Param("id") UUID id);
 
+    @EntityGraph(attributePaths = {"dependencies", "projectStatusRecords"})
     Optional<ProjectModel> findFirstByProjectCode(String projectCode);
+
+    @EntityGraph(attributePaths = {"dependencies", "projectStatusRecords"})
+    Page<ProjectModel> findAll(Pageable pageable);
 }
