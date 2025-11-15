@@ -52,7 +52,7 @@ public class ProjectServiceBasicImpl implements ProjectService {
     @Override
     public List<ProjectModel> findProjectsByOldestUpdateAt(final int batchSize) {
         final Pageable pageable = PageRequest.of(0, batchSize, Sort.Direction.ASC, "updatedAt");
-        return projectRepository.findAll(pageable).stream().toList();
+                return projectRepository.findAll(pageable).toList();
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ProjectServiceBasicImpl implements ProjectService {
     public void addNewProjectDependency(final DependencyModel dependency) {
         final Optional<ProjectModel> project = projectRepository.findFirstByProjectCode(dependency.project().projectCode());
         project.map(p -> dependencyRepository.save(dependency.project(p)))
-                .orElseThrow(() -> new NoSuchElementException("Project not found"));
+                .orElseThrow(() -> new NoSuchElementException("Project with code " + dependency.project().projectCode() + " not found!"));
     }
 
     @Override

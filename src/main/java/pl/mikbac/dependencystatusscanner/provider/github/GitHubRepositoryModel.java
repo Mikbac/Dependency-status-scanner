@@ -1,4 +1,4 @@
-package pl.mikbac.dependencystatusscanner.provider.impl.github;
+package pl.mikbac.dependencystatusscanner.provider.github;
 
 /**
  * Created by MikBac on 19.09.2024

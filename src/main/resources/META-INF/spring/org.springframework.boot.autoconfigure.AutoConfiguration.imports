@@ -1,0 +1,4 @@
+pl.mikbac.dependencystatusscanner.project.configuration.ProjectAutoConfiguration
+pl.mikbac.dependencystatusscanner.provider.github.GitHubClientAutoConfiguration
+pl.mikbac.dependencystatusscanner.scanner.ScannerAutoConfiguration
+pl.mikbac.dependencystatusscanner.metrics.MetricsAutoConfiguration

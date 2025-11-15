@@ -1,4 +1,4 @@
-package pl.mikbac.dependencystatusscanner.provider.impl.github;
+package pl.mikbac.dependencystatusscanner.provider.github;
 
 import lombok.experimental.UtilityClass;
 import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;

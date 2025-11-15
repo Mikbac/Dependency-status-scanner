@@ -1,9 +1,13 @@
 package pl.mikbac.dependencystatusscanner.project.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import pl.mikbac.dependencystatusscanner.properties.ProjectsProperties;
 
 import java.util.concurrent.Executor;
@@ -12,9 +16,13 @@ import java.util.concurrent.Executor;
  * Created by MikBac on 15.08.2025
  */
 
-@Configuration
+@AutoConfiguration
+@ComponentScan("pl.mikbac.dependencystatusscanner.project")
+@EntityScan("pl.mikbac.dependencystatusscanner.project.model")
 @RequiredArgsConstructor
-public class AsyncConfig {
+@EnableAsync
+@EnableTransactionManagement
+public class ProjectAutoConfiguration {
 
     private final ProjectsProperties projectsProperties;
 

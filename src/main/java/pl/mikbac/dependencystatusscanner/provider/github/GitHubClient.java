@@ -1,4 +1,4 @@
-package pl.mikbac.dependencystatusscanner.provider.impl.github;
+package pl.mikbac.dependencystatusscanner.provider.github;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,8 @@ import pl.mikbac.dependencystatusscanner.project.model.ProjectModel;
 
 import java.util.Optional;
 
-import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_CLIENT;
-import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_PROVIDER_REST_CLIENT;
+import static pl.mikbac.dependencystatusscanner.provider.github.GitHubClientAutoConfiguration.GITHUB_CLIENT;
+import static pl.mikbac.dependencystatusscanner.provider.github.GitHubClientAutoConfiguration.GITHUB_PROVIDER_REST_CLIENT;
 
 /**
  * Created by MikBac on 03.05.2024

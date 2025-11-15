@@ -1,10 +1,11 @@
-package pl.mikbac.dependencystatusscanner.provider.impl.github;
+package pl.mikbac.dependencystatusscanner.provider.github;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
@@ -18,9 +19,10 @@ import java.time.Duration;
  * Created by MikBac on 17.08.2024
  */
 
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(prefix = "projects.provider.github", name = "active")
-public class GitHubClientConfiguration {
+@ComponentScan("pl.mikbac.dependencystatusscanner.provider.github")
+public class GitHubClientAutoConfiguration {
 
     public static final String GITHUB_PROVIDER = "githubProvider";
     public static final String GITHUB_CLIENT = "githubClient";

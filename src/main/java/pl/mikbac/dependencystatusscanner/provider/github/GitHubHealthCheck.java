@@ -1,14 +1,12 @@
-package pl.mikbac.dependencystatusscanner.provider.impl.github;
+package pl.mikbac.dependencystatusscanner.provider.github;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.health.Status;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import pl.mikbac.dependencystatusscanner.metrics.HealthCheck;
-
-import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClientConfiguration.GITHUB_CLIENT;
 
 /**
  * Created by MikBac on 03.05.2024
@@ -16,7 +14,7 @@ import static pl.mikbac.dependencystatusscanner.provider.impl.github.GitHubClien
 
 @Slf4j
 @Service
-@ConditionalOnBean(name = GITHUB_CLIENT)
+@ConditionalOnProperty(prefix = "projects.provider.github", name = "active")
 @RequiredArgsConstructor
 public class GitHubHealthCheck implements HealthCheck {
 

@@ -52,7 +52,7 @@ public class ProjectFacade {
 
     public void addProject(final ProjectRequestData projectData) {
         projectService.findProjectByCode(projectData.code()).ifPresent(p -> {
-            throw new IllegalArgumentException("Project with code " + p + " already exists!");
+            throw new IllegalArgumentException("Project with code " + projectData.code() + " already exists!");
         });
         final ProjectModel projectModel = ProjectConverter.toProjectModel(projectData);
         projectService.addNewProject(projectModel);

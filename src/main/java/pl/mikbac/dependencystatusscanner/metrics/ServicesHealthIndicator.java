@@ -22,7 +22,7 @@ public class ServicesHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         final Map<String, Status> healthStatuses = getHealthChecks();
-        if (healthStatuses.containsValue(Status.DOWN)) {
+        if (isAnyServiceDown(healthStatuses)) {
             return Health.down()
                     .withDetails(healthStatuses)
                     .build();
@@ -33,11 +33,16 @@ public class ServicesHealthIndicator implements HealthIndicator {
         }
     }
 
+    private boolean isAnyServiceDown(Map<String, Status> healthStatuses) {
+        return healthStatuses.values().stream()
+                .anyMatch(status -> !Status.UP.equals(status));
+    }
+
     private Map<String, Status> getHealthChecks() {
         return healthCheckProviders.entrySet().stream()
                 .collect(Collectors.toMap(
-                        e -> e.getValue().getHealthCheckName(),
-                        e -> e.getValue().getHealthCheckStatus()
+                        checkEntry -> checkEntry.getValue().getHealthCheckName(),
+                        checkEntry -> checkEntry.getValue().getHealthCheckStatus()
                 ));
     }
 
