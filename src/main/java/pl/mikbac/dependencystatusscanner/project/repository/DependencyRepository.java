@@ -16,9 +16,9 @@ import java.util.Optional;
 @Repository
 public interface DependencyRepository extends JpaRepository<DependencyModel, String> {
 
-    @EntityGraph(attributePaths = {"projects"})
+    @EntityGraph(attributePaths = {"project"})
     Optional<DependencyModel> findByCode(String code);
 
-    @EntityGraph(attributePaths = {"projects"})
+    @EntityGraph(attributePaths = {"project"})
     Page<DependencyModel> findAll(Pageable pageable);
 }
