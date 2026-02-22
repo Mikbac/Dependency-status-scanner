@@ -1,5 +1,8 @@
 name: Run application tests
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [master]

@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
 import java.sql.Timestamp;
 import java.util.Set;

@@ -117,7 +117,7 @@ Report: `build/reports/cyclonedx-direct/bom.json`
 ```shell
 ./gradlew wrapper --gradle-version <version>
 # e.g.
-./gradlew wrapper --gradle-version 8.12
+./gradlew wrapper --gradle-version 9.3.1
 ```
 
 ## TODO

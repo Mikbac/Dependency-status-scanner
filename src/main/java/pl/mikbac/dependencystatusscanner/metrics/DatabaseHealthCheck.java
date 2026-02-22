@@ -1,7 +1,7 @@
 package pl.mikbac.dependencystatusscanner.metrics;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.actuate.health.Status;
+import org.springframework.boot.health.contributor.Status;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;

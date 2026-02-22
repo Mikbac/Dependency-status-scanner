@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(properties = {
         "spring.flyway.schemas=mock_dependency_scanner",
         "spring.jpa.properties.hibernate.default_schema=mock_dependency_scanner"})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ProjectServiceBasicImplIntegrationTest {
 
     private static final String CLEAN_TABLE_PROJECTS = "TRUNCATE TABLE mock_dependency_scanner.projects RESTART IDENTITY CASCADE";

@@ -1,6 +1,6 @@
 package pl.mikbac.dependencystatusscanner.metrics;
 
-import org.springframework.boot.actuate.health.Status;
+import org.springframework.boot.health.contributor.Status;
 
 /**
  * Created by MikBac on 02.11.2025
