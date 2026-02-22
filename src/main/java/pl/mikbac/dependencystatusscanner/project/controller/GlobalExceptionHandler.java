@@ -4,17 +4,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import pl.mikbac.dependencystatusscanner.project.data.ExceptionResponseData;
-import pl.mikbac.dependencystatusscanner.project.data.ExceptionResponseData.ExceptionErrorCode;
 
+import java.net.URI;
 import java.time.Instant;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Created by MikBac on 03.05.2025
@@ -25,52 +27,63 @@ import java.util.UUID;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ExceptionResponseData> handleNonExistingElement(final NoSuchElementException ex,
-                                                                          final HttpServletRequest request) {
+    public ResponseEntity<ProblemDetail> handleNonExistingElement(final NoSuchElementException ex,
+                                                                  final HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(buildExceptionResponse(ex.getMessage(), request.getRequestURI(), ExceptionErrorCode.ELEMENT_NOT_FOUND_ERROR));
+                .body(buildExceptionResponse(HttpStatus.NOT_FOUND, problemDetail -> {
+                    problemDetail.setTitle("Resource not found.");
+                    problemDetail.setDetail(ex.getMessage());
+                    problemDetail.setInstance(URI.create(request.getRequestURI()));
+                }));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ExceptionResponseData> handleConflictWithExistingElement(final IllegalArgumentException ex,
-                                                                                   final HttpServletRequest request) {
+    public ResponseEntity<ProblemDetail> handleConflictWithExistingElement(final IllegalArgumentException ex,
+                                                                           final HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(buildExceptionResponse(ex.getMessage(), request.getRequestURI(), ExceptionErrorCode.DUPLICATE_ELEMENT_ERROR));
+                .body(buildExceptionResponse(HttpStatus.CONFLICT, problemDetail -> {
+                    problemDetail.setTitle("Resource already exists.");
+                    problemDetail.setDetail(ex.getMessage());
+                    problemDetail.setInstance(URI.create(request.getRequestURI()));
+                }));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionResponseData> handleValidationException(final MethodArgumentNotValidException ex,
-                                                                           final HttpServletRequest request) {
+    public ResponseEntity<ProblemDetail> handleValidationException(final MethodArgumentNotValidException ex,
+                                                                   final HttpServletRequest request) {
         final String errorMessage = Optional.ofNullable(ex.getFieldError())
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .orElse("Validation exception.");
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(buildExceptionResponse(errorMessage, request.getRequestURI(), ExceptionErrorCode.VALIDATION_ERROR));
+                .body(buildExceptionResponse(HttpStatus.BAD_REQUEST, problemDetail -> {
+                    problemDetail.setTitle("Invalid request data.");
+                    problemDetail.setDetail(errorMessage);
+                    problemDetail.setInstance(URI.create(request.getRequestURI()));
+                }));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponseData> handleUnsupportedException(final Exception ex,
-                                                                            final HttpServletRequest request) {
+    public ResponseEntity<ProblemDetail> handleUnsupportedException(final Exception ex,
+                                                                    final HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(buildExceptionResponse(ex.getMessage(), request.getRequestURI(), ExceptionErrorCode.UNKNOWN_ERROR));
+                .body(buildExceptionResponse(HttpStatus.BAD_REQUEST, problemDetail -> {
+                    problemDetail.setTitle("An unexpected error occurred.");
+                    problemDetail.setDetail(ex.getMessage());
+                    problemDetail.setInstance(URI.create(request.getRequestURI()));
+                }));
     }
 
-    private ExceptionResponseData buildExceptionResponse(final String message,
-                                                         final String uri,
-                                                         final ExceptionErrorCode errorCode) {
+    private ProblemDetail buildExceptionResponse(final HttpStatus status, Consumer<ProblemDetail> consumer) {
         final String errorId = UUID.randomUUID().toString();
         LOGGER.warn("Generated unique error id for exception [errorId={}]", errorId);
-        return ExceptionResponseData.builder()
-                .message(message)
-                .path(uri)
-                .errorCode(errorCode.getCode())
-                .errorId(errorId)
-                .timestamp(Instant.now())
-                .build();
+        final ProblemDetail problem = ProblemDetail.forStatus(status);
+        consumer.accept(problem);
+        problem.setProperties(Map.of("errorId", errorId, "timestamp", Instant.now().toString()));
+        return problem;
     }
 
 }
